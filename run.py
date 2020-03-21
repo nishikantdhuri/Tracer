@@ -1,9 +1,18 @@
 from flask import Flask
-import logging
-application=Flask(__name__)
-application.debug=False
-from app.tracer_controller import trace_bp
-application.register_blueprint(trace_bp)
+from flask_socketio import SocketIO
+application=Flask(__name__,template_folder='app/templates')
+socketio = SocketIO(application)
+from flask import render_template,request
+
+@application.route('/')
+def healthcheck():
+    return render_template('/tracer.html')
+
+@application.route('/soc',methods=['POST'])
+def update():
+    input_json = request.get_json(force=True)
+    socketio.emit('event',{'data': input_json},namespace='/test')
+    return render_template('demo.html')
 
 if __name__ == '__main__':
-    application.run(port=82)
+    socketio.run(application)

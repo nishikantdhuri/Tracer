@@ -1,109 +1,34 @@
 <!DOCTYPE html>
-
 <meta charset="utf-8" />
-
 <title>WebSocket Test</title>
-<script language="javascript" type="text/javascript">
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function() {
+    // Use a "/my_namespace" namespace.
+    namespace = '/my_namespace';
+    debugger
+    // Connect to the Socket.IO server.
+    // The connection URL has the following format,
+	// relative to the current page:
+    // http[s]://<domain>:<port>[/<namespace>]
+    var socket = io.connect('http://' + document.domain + ':' + location.port + '/test');
+    //var socket = io(namespace);
 
+	// The callback function is invoked when a connection with the
+    // server is established.
+    socket.on('connect', function() {
+    //socket.emit('my_event', {data: 'I\'m connected!'});
+    a=1
+    });
 
-  function init()
-  {
-	// document.myform.url.value = "ws://localhost:8000/"
-	// document.myform.inputtext.value = "Hello World!"
-	// document.myform.disconnectButton.disabled = true;
-  }
-
-  function doConnect()
-  {
-    websocket = new WebSocket('ws://localhost:8000/');
-    websocket.onopen = function(evt) { onOpen(evt) };
-    websocket.onclose = function(evt) { onClose(evt) };
-    websocket.onmessage = function(evt) { onMessage(evt) };
-    websocket.onerror = function(evt) { onError(evt) };
-    //doSend('dummy')
-  }
-
-  function onOpen(evt)
-  {
-    writeToScreen("connected\n");
-	// document.myform.connectButton.disabled = true;
-	// document.myform.disconnectButton.disabled = false;
-  }
-
-  function onClose(evt)
-  {
-    writeToScreen("disconnected\n");
-	// document.myform.connectButton.disabled = false;
-	// document.myform.disconnectButton.disabled = true;
-  }
-
-  function onMessage(evt)
-  {
-    writeToScreen("response: " + evt.data + '\n');
-  }
-
-  function onError(evt)
-  {
-    writeToScreen('error: ' + evt.data + '\n');
-
-	websocket.close();
-
-	// document.myform.connectButton.disabled = false;
-	// document.myform.disconnectButton.disabled = true;
-
-  }
-
-  function doSend(message)
-  {
-    //writeToScreen("sent: " + 'dummy' + '\n');
-    //websocket.send('dummy')
-    setInterval(do_send_interval,60000)
-  }
-
-  function do_send_interval()
-  {
-    writeToScreen("sent: " + 'dummy' + '\n');
-    websocket.send('dummy')
-  }
-  function writeToScreen(message)
-  {
-    // document.myform.outputtext.value += message
-	//   document.myform.outputtext.scrollTop = document.myform.outputtext.scrollHeight;
-    document.getElementById('output').innerText = message
-  }
-
-  window.addEventListener("load", init, false);
-
-
-   function doDisconnect() {
-		websocket.close();
-   }
-
-
+    socket.on('event', function(data) {
+    alert(data)
+    });
+});
 </script>
 
 <body>
     <div id="output" ></div>
-    <input type="button" name=connectButton value="Connect" onClick="doConnect();">
-    <input type="button" name=sendButton value="Send" onClick="doSend();">
-<!-- <form name="myform">
-<p>
-<textarea name="outputtext" rows="20" cols="50"></textarea>
-</p>
-<p>
-<textarea name="inputtext" cols="50"></textarea>
-</p>
-<p>
-<textarea name="url" cols="50"></textarea>
-</p>
-<p>
-<input type="button" name=sendButton value="Send" onClick="sendText();">
-<input type="button" name=clearButton value="Clear" onClick="clearText();">
-<input type="button" name=disconnectButton value="Disconnect" onClick="doDisconnect();">
-<input type="button" name=connectButton value="Connect" onClick="doConnect();">
-</p>
-
-
-</form> -->
 </html>
 </body>
