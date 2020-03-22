@@ -23,7 +23,7 @@ $(document).ready(function() {
     });
 
     socket.on('event', function(data) {
-    alert(data)
+    $('div').text(data['status'])
     });
 });
 </script>
