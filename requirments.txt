@@ -3,3 +3,4 @@ Werkzeug==0.16.0
 WTForms==2.2.1
 requests==2.22.0
 flask-socketio==4.2.1
+pymongo==3.10.1
