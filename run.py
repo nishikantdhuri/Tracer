@@ -41,4 +41,4 @@ if __name__ == '__main__':
     client = MongoClient(mongo)
     mongo = client["logs"]
     #os.environ['mq_host']='192.168.99.100'
-    socketio.run(application)
+    socketio.run(application,host="0.0.0.0")
